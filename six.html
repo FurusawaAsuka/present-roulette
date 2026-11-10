@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#174e46">
+<title>くるっと交換｜6人のプレゼントルーレット</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;color:#193e38;background:#f7f4eb;font-synthesis:none}*{box-sizing:border-box}body{margin:0}main{max-width:1040px;margin:auto;padding:36px 22px 50px}.eyebrow{font-size:12px;letter-spacing:.18em;font-weight:700;color:#637a6c}h1{font-size:clamp(27px,5vw,46px);letter-spacing:-.04em;margin:12px 0}h1 span{color:#bd5638}.intro{line-height:1.9;color:#627168;font-size:14px}.layout{display:grid;grid-template-columns:1fr 1.12fr;gap:28px;margin-top:28px}.card{background:#fffdf8;border:1px solid #e5e6da;border-radius:24px;padding:26px;box-shadow:0 8px 30px #24453606}h2{font-size:19px;margin:0 0 8px}.hint{font-size:13px;color:#6c7b72;line-height:1.8;margin:0 0 18px}.names{display:grid;gap:10px}.field{display:flex;align-items:center;gap:12px}.number{display:grid;place-items:center;flex:0 0 30px;height:30px;background:#e8eee4;border-radius:50%;font-size:13px;font-weight:bold}input{width:100%;min-width:0;font:inherit;font-size:16px;border:1px solid #cbd5cb;border-radius:12px;padding:12px;background:white;color:#193e38}input:focus{outline:3px solid #d4e6d8;border-color:#317662}button:focus-visible{outline:3px solid #cc8a42;outline-offset:4px}.note{font-size:12px;line-height:1.9;color:#788175;margin-top:18px}.stage{text-align:center;display:flex;flex-direction:column;align-items:center}.wheel-wrap{position:relative;width:min(100%,320px);aspect-ratio:1;margin:10px auto 22px}.pointer{position:absolute;z-index:2;left:calc(50% - 12px);top:-5px;width:24px;height:26px;background:#bd5638;clip-path:polygon(0 0,100% 0,50% 100%)}svg{display:block;width:100%;height:100%;filter:drop-shadow(0 8px 12px #203f3814)}#disc{transform-origin:160px 160px}.hub{position:absolute;inset:calc(50% - 36px);display:grid;place-content:center;background:#fffdf8;border:6px solid #fffdf8;border-radius:50%;box-shadow:0 2px 10px #0001;font-size:24px;pointer-events:none}.primary{width:100%;min-height:54px;border:0;border-radius:14px;background:#174e46;color:white;font:inherit;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 4px 0 #103c35}.primary:disabled{opacity:.6;cursor:wait}.status{font-size:13px;min-height:22px;line-height:1.7;margin:14px 0 0;color:#61746a}#error{color:#b03928;font-size:14px;line-height:1.7;margin:12px 0 0}#results{margin-top:28px;scroll-margin-top:20px}#results[hidden]{display:none}.result-top{display:flex;justify-content:space-between;align-items:center;gap:16px}.badge{font-size:12px;background:#e8eee4;padding:7px 12px;border-radius:99px;white-space:nowrap}.rows{margin-top:20px;display:grid;gap:9px}.row{display:grid;grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr);align-items:center;gap:8px;background:#f2f5ed;border-radius:13px;padding:14px}.person{overflow-wrap:anywhere}.person small{display:block;color:#748176;font-size:11px;margin-bottom:5px}.person strong{font-size:16px}.arrow{text-align:center;color:#bd5638;font-size:23px}.secondary{margin-top:18px;min-height:44px;background:transparent;border:1px solid #b9c8bc;border-radius:10px;padding:8px 18px;font:inherit;color:#174e46;cursor:pointer}.foot{font-size:12px;color:#7a8579;text-align:center;line-height:1.9;margin-top:28px}@media(max-width:660px){main{padding:26px 16px 32px}.layout{grid-template-columns:1fr;gap:18px;margin-top:22px}.card{padding:22px}.wheel-wrap{width:270px;max-width:100%}.result-top{align-items:flex-start}.badge{font-size:11px;padding:6px 9px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.turn{font-size:20px;font-weight:700;overflow-wrap:anywhere;margin:0 0 18px}.reveal{width:100%;background:#f5e4c9;border-radius:16px;padding:20px;margin-bottom:20px;line-height:1.9;overflow-wrap:anywhere}.reveal strong{display:block;font-size:23px;color:#99432c}[hidden]{display:none!important}</style>
+</head>
+<body><main>
+<header><div class="eyebrow">GIFT EXCHANGE · FOR SIX</div><h1>くるっと、<span>プレゼント交換。</span></h1><p class="intro">誰のプレゼントが、誰のもとへ？<br>6人みんなで、ひとつの輪になる抽選です。</p></header>
+<div class="layout">
+<section class="card"><h2>01 / 参加者を決める</h2><p class="hint">6人の名前を入力してください。</p><div class="names" id="names"></div><p id="error" role="alert" hidden></p><p class="note">同じ名前の場合は「はるか A」「はるか B」のように区別してください。抽選開始後は名前が固定されます。変更するときは「最初からやり直す」を押してください。</p></section>
+<section class="card stage"><h2>02 / 運命をくるっと</h2><p class="hint">1人1回ずつ。自分の番になったら、まわしてね。</p><div class="wheel-wrap"><div class="pointer" aria-hidden="true"></div><svg viewBox="0 0 320 320" role="img" aria-label="6人のプレゼント交換ルーレット"><g id="disc"></g></svg><div class="hub" aria-hidden="true">🎁</div></div><p class="turn" id="turn" aria-live="polite"></p><div class="reveal" id="reveal" role="status" hidden></div><button class="primary" id="spin" type="button">ルーレットをまわす</button><button class="primary" id="next" type="button" hidden>次の人へ</button><button class="secondary" id="reset" type="button" hidden>最初からやり直す</button><p class="status" id="status" role="status" aria-live="polite">自分には当たらない・重複なし</p></section>
+</div>
+<section class="card" id="results" hidden aria-labelledby="result-title"><div class="result-top"><div><h2 id="result-title">ここまでの交換結果</h2><p class="hint">矢印の方向にプレゼントを渡してください。</p></div><span class="badge">6人でひとつの輪</span></div><div class="rows" id="rows"></div><button class="secondary" id="copy" type="button">結果をコピー</button><p class="status" id="copy-status" role="status"></p></section>
+<p class="foot">自分以外の人から、ひとつずつ受け取れます。<br>名前と抽選結果は外部に送信しません。再読み込みでリセットされます。</p>
+<details class="note"><summary>抽選のしくみ</summary><p>6人をランダムに並べ、次の人へ渡し、最後の人は最初の人へ渡します。重複する相手や自分自身への割り当ては発生しません。全120通りの巡回を同じ確率で最初に選び、入力順に1人ずつ発表します。針は、その人にプレゼントを渡す人の名前に止まります。結果は全員に表示されます。終盤は残った相手を推測できることがあります。</p></details>
+</main>
+<script>
+'use strict';
+const colors=['#d5e4bc','#f0c598','#d6dfcf','#ecd9ab','#a9c7b6','#dfc6c4'];
+const inputs=[];let busy=false;let result=[];let rotation=0;let turn=0;let revealed=0;
+const $=id=>document.getElementById(id);
+for(let i=0;i<6;i++){const label=document.createElement('label');label.className='field';const num=document.createElement('span');num.className='number';num.textContent=i+1;const input=document.createElement('input');input.type='text';input.value=['あおい','はるか','ゆう','さくら','れん','ひなた'][i];input.maxLength=20;input.autocomplete='off';input.setAttribute('aria-label',`参加者${i+1}の名前`);label.append(num,input);$('names').append(label);inputs.push(input);input.addEventListener('input',resetSession);}
+
+function draw(){const disc=$('disc');disc.replaceChildren();inputs.forEach((input,i)=>{const start=(i*60-90)*Math.PI/180,end=((i+1)*60-90)*Math.PI/180,mid=(start+end)/2;const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',`M160 160 L${160+150*Math.cos(start)} ${160+150*Math.sin(start)} A150 150 0 0 1 ${160+150*Math.cos(end)} ${160+150*Math.sin(end)} Z`);path.setAttribute('fill',colors[i]);path.setAttribute('stroke','#fffdf8');path.setAttribute('stroke-width','3');const label=document.createElementNS('http://www.w3.org/2000/svg','text');label.setAttribute('x',160+99*Math.cos(mid));label.setAttribute('y',160+99*Math.sin(mid));label.setAttribute('text-anchor','middle');label.setAttribute('dominant-baseline','middle');label.setAttribute('fill','#244c41');label.setAttribute('font-size','13');label.setAttribute('font-weight','700');const name=input.value.trim()||`${i+1}人目`;label.textContent=Array.from(name).length>6?Array.from(name).slice(0,5).join('')+'…':name;disc.append(path,label);});}
+// Rejection sampling avoids modulo bias. Fisher–Yates makes every order equiprobable.
+function randomInt(n){const a=new Uint32Array(1),limit=Math.floor(4294967296/n)*n;do{crypto.getRandomValues(a);}while(a[0]>=limit);return a[0]%n;}
+function createCycle(){const order=[0,1,2,3,4,5];for(let i=5;i>0;i--){const j=randomInt(i+1);[order[i],order[j]]=[order[j],order[i]];}return order.map((from,i)=>({from,to:order[(i+1)%6]}));}
+function showResult(names){$('rows').replaceChildren();for(const pair of result.filter(p=>p.to<revealed).sort((a,b)=>a.to-b.to)){const row=document.createElement('div');row.className='row';for(const [idx,caption] of [[pair.from,'渡す人'],[pair.to,'受け取る人']]){if(caption==='受け取る人'){const arrow=document.createElement('span');arrow.className='arrow';arrow.textContent='→';arrow.setAttribute('aria-label','から');row.append(arrow);}const person=document.createElement('div');person.className='person';const small=document.createElement('small');small.textContent=caption;const strong=document.createElement('strong');strong.textContent=names[idx];person.append(small,strong);row.append(person);}$('rows').append(row);}$('results').hidden=false;}
+function updateTurn(){
+ const name=inputs[turn]?.value.trim()||`${turn+1}人目`;
+ $('turn').textContent=turn<6?`${turn+1} / 6 · ${name}さんの番`:'6 / 6 · 全員の交換相手が決定！';
+ $('spin').textContent=`${name}さんがまわす`;
+}
+function resetSession(){
+ if(busy)return;
+ result=[];turn=0;revealed=0;rotation=0;$('disc').style.transform='rotate(0deg)';
+ inputs.forEach(i=>i.disabled=false);$('results').hidden=true;$('error').hidden=true;
+ $('reveal').hidden=true;$('next').hidden=true;$('reset').hidden=true;$('spin').hidden=false;$('spin').disabled=false;
+ $('copy-status').textContent='';$('copy-text')?.remove();$('result-title').textContent='ここまでの交換結果';
+ $('status').textContent='自分には当たらない・重複なし';draw();updateTurn();
+}
+$('reset').addEventListener('click',()=>{if(!busy&&confirm('ここまでの結果を消して、最初からやり直しますか？'))resetSession();});
+$('next').addEventListener('click',()=>{
+ if(busy||revealed!==turn+1||revealed>=6)return;
+ turn++;$('reveal').hidden=true;$('next').hidden=true;$('spin').hidden=false;
+ $('status').textContent='次の人にスマホを渡してください。';updateTurn();
+});
+$('spin').addEventListener('click',async()=>{
+ if(busy||turn>=6||revealed!==turn)return;
+ const names=inputs.map(i=>i.value.trim());const normalized=names.map(n=>n.normalize('NFKC').toLocaleLowerCase('ja'));
+ if(names.some(n=>!n)||new Set(normalized).size!==6){
+ $('error').textContent=names.some(n=>!n)?'6人全員の名前を入力してください。':'名前が重複しています。区別できる名前にしてください。';$('error').hidden=false;
+ inputs[names.findIndex((n,i)=>!n||normalized.indexOf(normalized[i])!==i)]?.focus();return;
+ }
+ busy=true;$('spin').disabled=true;$('reset').disabled=true;inputs.forEach(i=>i.disabled=true);$('error').hidden=true;
+ $('status').textContent=`${names[turn]}さんは、誰のプレゼントを受け取る…？`;
+ try{
+ if(!result.length)result=createCycle();
+ const pair=result.find(p=>p.to===turn);
+ // Segment center is 30 + 60*index degrees clockwise from the top.
+ const target=(360-(pair.from*60+30))%360;
+ const next=rotation+1800+((target-rotation+360)%360);
+ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ if(!reduce&&$('disc').animate){
+ const animation=$('disc').animate([{transform:`rotate(${rotation}deg)`},{transform:`rotate(${next}deg)`}],{duration:4200,easing:'cubic-bezier(.12,.66,.12,1)',fill:'forwards'});
+ await animation.finished;$('disc').style.transform=`rotate(${target}deg)`;animation.cancel();
+ }else{$('disc').style.transform=`rotate(${target}deg)`;}
+ rotation=target;revealed++;
+ const label=document.createElement('span');label.textContent=`${names[turn]}さんが受け取るのは…`;
+ const winner=document.createElement('strong');winner.textContent=`🎁 ${names[pair.from]}さんのプレゼント！`;
+ $('reveal').replaceChildren(label,winner);$('reveal').hidden=false;showResult(names);
+ $('spin').hidden=true;$('reset').hidden=false;
+ if(revealed===6){turn=6;$('result-title').textContent='6人全員の交換結果';$('status').textContent='全員の抽選が終わりました！ プレゼントを交換しましょう。';updateTurn();}
+ else{$('next').textContent=`次は${names[turn+1]}さんへ`;$('next').hidden=false;$('status').textContent=`${revealed} / 6人 発表しました。`;}
+ }catch(e){$('status').textContent='うまく回せませんでした。もう一度ボタンを押してください。';}
+ finally{busy=false;$('spin').disabled=false;$('reset').disabled=false;if(!result.length)inputs.forEach(i=>i.disabled=false);}
+});
+$('copy').addEventListener('click',async()=>{const names=inputs.map(i=>i.value.trim());const text=`🎁 プレゼント交換の結果（${revealed}/6人発表済み）`+'\n（渡す人 → 受け取る人）\n'+result.filter(p=>p.to<revealed).sort((a,b)=>a.to-b.to).map(p=>`${names[p.from]} → ${names[p.to]}`).join('\n');try{await navigator.clipboard.writeText(text);$('copy-status').textContent='結果をコピーしました。';}catch(e){$('copy-status').textContent='コピーできませんでした。下の文章を長押ししてコピーしてください。';let area=$('copy-text');if(!area){area=document.createElement('textarea');area.id='copy-text';area.readOnly=true;area.setAttribute('aria-label','コピー用の抽選結果');area.style.cssText='width:100%;min-height:180px;font-size:16px;margin-top:12px';$('copy-status').after(area);}area.value=text;area.focus();area.select();}});
+draw();updateTurn();
+</script></body></html>
